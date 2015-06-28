@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,16 @@ namespace TctpUtil
             m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             var receiveTask = new Task(m_readLoop);
             receiveTask.Start();
+        }
+
+        public void InitLocal()
+        {
+            m_socket.Connect(new IPEndPoint(IPAddress.Broadcast, 5683));
+        }
+
+        public void Connect(IPEndPoint endPoint)
+        {
+            m_socket.Connect(endPoint);
         }
 
         public void Send(string jsonMessage)
