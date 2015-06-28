@@ -13,9 +13,11 @@ namespace TctpUtil
         private Socket m_socket;
         public Action<string> OnReceive;
 
-        public TctpClient()
+        public TctpClient() : this(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)) { }
+
+        public TctpClient(Socket socket)
         {
-            m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            m_socket = socket;
             var receiveTask = new Task(m_readLoop);
             receiveTask.Start();
         }
